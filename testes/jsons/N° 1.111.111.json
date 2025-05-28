@@ -1,28 +1,40 @@
 {
     "order_id": "N° 1.111.111",
+    "date": "26/05/2025",
+    "cnpj": "11.111.111/0001-10",
     "items": [
         {
             "sku_seller_id": "0000001",
+            "stock_item": "1111111",
+            "product_description": "ProdutoTeste1",
             "quantity": 10.0,
             "sale_price": 100.0
         },
         {
             "sku_seller_id": "0000002",
+            "stock_item": "1111112",
+            "product_description": "ProdutoTeste2",
             "quantity": 5.0,
             "sale_price": 100.0
         },
         {
             "sku_seller_id": "0000003",
+            "stock_item": "1111113",
+            "product_description": "ProdutoTeste3",
             "quantity": 10.0,
             "sale_price": 100.0
         },
         {
             "sku_seller_id": "0000004",
+            "stock_item": "1111114",
+            "product_description": "ProdutoTeste4",
             "quantity": 50.0,
             "sale_price": 100.0
         },
         {
             "sku_seller_id": "0000005",
+            "stock_item": "1111115",
+            "product_description": "ProdutoTeste5",
             "quantity": 50.0,
             "sale_price": 100.0
         }

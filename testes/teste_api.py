@@ -3,7 +3,7 @@ import json
 
 link = r'http://localhost:5000/pedidos?folder={}'
 
-pasta_monitorada = 'pasta_monitorada'
+pasta_monitorada = str(input('Nome da pasta: '))
 
 requisicao = requests.get(link.format(pasta_monitorada))
 response = requisicao.json()

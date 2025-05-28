@@ -30,17 +30,30 @@ def extract_text_from_pdf(pdf_file):
 
 def standardize_text(text):
     pattern_order_id = re.compile(r'N°\s\d{1}.\d{3}.\d{3}')
+    pattern_cnpj = re.compile(r'\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}')
+    pattern_date = re.compile(r'\d{2}/\d{2}/\d{4}')
+    
     pattern_cod_fornecedor = re.compile(r'\d+')
+    pattern_item_estoque = re.compile(r'(\d+)\s')
     pattern_quantidade = re.compile(r'\d+,\d{3}')
     pattern_valor_unitario = re.compile(r'(\d+,\d{2})\s')
 
     json_pedido = {
         'order_id': '',
+        'date': '',
+        'cnpj': '',
         'items': []
     }
 
     numero_pedido = re.findall(pattern_order_id, text)
     json_pedido['order_id'] = numero_pedido[0]
+
+    date = re.findall(pattern_date, text)[0]
+    json_pedido['date'] = date
+
+    cnpj = re.findall(pattern_cnpj, text)[0]
+    json_pedido['cnpj'] = cnpj
+    
 
     try:
         header_index = text.index('Cód. Fornecedor Item de Estoque Emb. Quantidade Vlr. Unit. Desconto Vlr. Liq. IPI % IPI $ Frete Imp.Ret. IR.Gnre Vlr. Total')
@@ -58,9 +71,15 @@ def standardize_text(text):
         cod_fornecedor = re.findall(pattern_cod_fornecedor, linha)[0]
         quantidade_item = re.findall(pattern_quantidade, linha)[0].replace(',', '.')
         valor_unitario = re.findall(pattern_valor_unitario, linha)[0].replace(',', '.')
+        item_estoque = re.findall(pattern_item_estoque, linha)[1]
+        pattern_descricao_prod = re.compile(rf'({item_estoque}\s(.+)(FD|UN|CX))')
+        descricao_prod = re.findall(pattern_descricao_prod, linha)[0][1].strip()
+
 
         json_pedido['items'].append({
             'sku_seller_id': str(cod_fornecedor),
+            'stock_item': str(item_estoque),
+            'product_description': descricao_prod,
             'quantity': float(quantidade_item),
             'sale_price': float(valor_unitario)
         })
